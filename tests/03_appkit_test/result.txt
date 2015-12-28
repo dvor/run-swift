@@ -1,0 +1,3 @@
+03_appkit_test: test.swift
+shadow blur radius: 17.0
+03_appkit_test: include.swift

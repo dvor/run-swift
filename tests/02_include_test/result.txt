@@ -1,0 +1,2 @@
+02_include_test: test.swift
+02_include_test: include.swift

@@ -1,0 +1,3 @@
+04_uikit_test: test.swift
+04_uikit_test: include.swift
+insets: UIEdgeInsets(top: 17.0, left: 0.0, bottom: 0.0, right: 0.0)
