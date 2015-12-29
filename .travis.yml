@@ -1,3 +1,4 @@
+language: swift
 before_script:
   - xcode-select --install
 script:
