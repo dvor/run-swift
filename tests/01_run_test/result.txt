@@ -1,0 +1,1 @@
+01_run_test: test.swift
