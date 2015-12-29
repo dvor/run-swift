@@ -1,5 +1,6 @@
 import Cocoa
 
 let app = NSApplication.sharedApplication()
-app.delegate = AppDelegate()
+let appDelegate = AppDelegate()
+app.delegate = appDelegate
 app.run()
