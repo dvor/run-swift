@@ -6,31 +6,60 @@ xcrun_arguments=()
 script_arguments=()
 
 script_path=$1
-contents=$(cat $script_path)
+script_contents=$(cat $script_path)
 dirname=$(dirname $script_path)
 
 for arg in "${@:2}"; do
   script_arguments+=($arg)
 done
 
-preprocess_pattern="^#\!(arg|import) (.*)"
+preprocess_pattern="^#!(arg|import) (.*)"
 
-while read -r line; do
-  if [[ $line =~ $preprocess_pattern ]]; then
-    case ${BASH_REMATCH[1]} in
-      "arg" )
-      xcrun_arguments+=(${BASH_REMATCH[2]})
-      ;;
-      "import" )
-      files+=("$dirname/${BASH_REMATCH[2]}")
-      ;;
-      * )
-      ;;
-    esac
+should_preprocess() {
+  while read -r line; do
+    if [[ $line =~ $preprocess_pattern ]]; then
+      return 1
+    fi
+  done <<< "$1"
+
+  return 0
+}
+
+new_files=()
+preprocess() {
+  new_files=()
+
+  while read -r line; do
+    if [[ $line =~ $preprocess_pattern ]]; then
+      case ${BASH_REMATCH[1]} in
+        "arg" )
+          xcrun_arguments+=(${BASH_REMATCH[2]})
+        ;;
+        "import" )
+          file="$dirname/${BASH_REMATCH[2]}"
+          if ! [[ ${files[@]} =~ "$file" ]]; then
+            new_files+=($file)
+          fi
+        ;;
+      esac
+    fi
+  done <<< "$1"
+}
+
+until should_preprocess "$script_contents"; do 
+  preprocess "$script_contents"
+  if [ ${#new_files[@]} -eq 0 ]; then
+    break
   fi
-done <<< "$contents"
+
+  files=("${new_files[@]}" "${files[@]}")
+
+  for f in ${files[@]}; do cat "$f"; echo "\n"; done > $TEMP_FILE
+  script_contents=$(cat $TEMP_FILE)
+done
 
 files+=($script_path)
+
 
 for f in ${files[@]}; do cat "$f"; echo "\n"; done > $TEMP_FILE
 sed -i '' '/^#/d' $TEMP_FILE
