@@ -1,7 +1,9 @@
 os:
   - osx
+osx_image: xcode7.2
 before_script:
   - xcode-select --install
+  - xcode-select --version
 script:
   ./tests/run-tests.sh
 notifications:
