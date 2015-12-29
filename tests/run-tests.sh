@@ -1,5 +1,7 @@
 #!/bin/sh
 
+result=0
+
 for f in tests/*/; do
 	string="Test ${f%?}"
 	result="$(./${f}test.swift)"
@@ -12,5 +14,8 @@ for f in tests/*/; do
 		echo $expected
 		echo "Actual result:"
 		echo $result
+		result=1
 	fi
 done
+
+exit $result
