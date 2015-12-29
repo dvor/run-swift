@@ -30,7 +30,7 @@ for arg in "$@"; do
     if [ $current == $stage_files ]; then
         files+=($arg)
     elif [ $current == $stage_source ]; then
-        files=("$arg ${files[@]}")
+        files=("${files[@]} $arg")
         current=$stage_script_args
     elif [ $current == $stage_xcrun_args ]; then
         xcrun_arguments+=($arg)
@@ -41,6 +41,7 @@ done
 
 for f in $files; do cat "$f"; echo "\n"; done > $TEMP_FILE
 sed -i '' '/^#/d' $TEMP_FILE
+
 
 eval "xcrun swift ${xcrun_arguments[@]} $TEMP_FILE ${script_arguments[@]}"
 result=$?
