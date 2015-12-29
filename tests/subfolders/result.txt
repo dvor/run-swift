@@ -1,0 +1,2 @@
+subfolder_test: include.swift
+subfolder_test: test.swift
