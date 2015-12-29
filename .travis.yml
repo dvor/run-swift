@@ -1,5 +1,8 @@
-language: swift
+os:
+  - osx
 before_script:
   - xcode-select --install
 script:
   ./tests/run-tests.sh
+notifications:
+  email: false
