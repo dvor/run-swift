@@ -1,0 +1,4 @@
+before_script:
+  - xcode-select --install
+script:
+  ./tests/run-tests.sh
