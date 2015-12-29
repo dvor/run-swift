@@ -1,4 +1,6 @@
-#!/bin/sh run-swift.sh tests/05_osx_app_test/AppDelegate.swift tests/05_osx_app_test/MyApplication.swift END
+#!/bin/sh run-swift.sh
+#!import AppDelegate.swift
+#!import MyApplication.swift
 
 import Cocoa
 

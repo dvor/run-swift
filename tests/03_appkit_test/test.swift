@@ -1,4 +1,5 @@
-#!/bin/sh run-swift.sh tests/03_appkit_test/include.swift END
+#!/bin/sh run-swift.sh
+#!import include.swift
 
 import AppKit
 

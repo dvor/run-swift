@@ -1,3 +1,4 @@
-#!/bin/sh run-swift.sh tests/02_include_test/include.swift END
+#!/bin/sh run-swift.sh
+#!import include.swift
 
 print("02_include_test: test.swift")
