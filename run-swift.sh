@@ -1,5 +1,5 @@
-TEMP_FILE="$(mktemp)"
-trap "rm $TEMP_FILE" SIGHUP SIGINT SIGTERM exit
+SCRIPT_TEMP_FILE="$(mktemp -t run-swift)"
+trap "rm $SCRIPT_TEMP_FILE" SIGHUP SIGINT SIGTERM exit
 
 files=()
 xcrun_arguments=()
@@ -54,16 +54,15 @@ until should_preprocess "$script_contents"; do
 
   files=("${new_files[@]}" "${files[@]}")
 
-  for f in ${files[@]}; do cat "$f"; echo "\n"; done > $TEMP_FILE
-  script_contents=$(cat $TEMP_FILE)
+  for f in ${files[@]}; do cat "$f"; printf "\n"; done > $SCRIPT_TEMP_FILE
+  script_contents=$(cat $SCRIPT_TEMP_FILE)
 done
 
 files+=($script_path)
 
+for f in ${files[@]}; do cat "$f"; printf "\n"; done > $SCRIPT_TEMP_FILE
+sed -i '' '/^#/d' $SCRIPT_TEMP_FILE
 
-for f in ${files[@]}; do cat "$f"; echo "\n"; done > $TEMP_FILE
-sed -i '' '/^#/d' $TEMP_FILE
-
-eval "xcrun swift ${xcrun_arguments[@]} $TEMP_FILE ${script_arguments[@]}"
+eval "xcrun swift ${xcrun_arguments[@]} $SCRIPT_TEMP_FILE ${script_arguments[@]}"
 
 exit $?
