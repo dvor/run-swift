@@ -25,6 +25,7 @@ should_preprocess() {
   return 0
 }
 
+# http://stackoverflow.com/a/18443300/300798
 realpath() {
   OURPWD=$PWD
   cd "$(dirname "$1")"
