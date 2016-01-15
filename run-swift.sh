@@ -25,6 +25,19 @@ should_preprocess() {
   return 0
 }
 
+realpath() {
+  OURPWD=$PWD
+  cd "$(dirname "$1")"
+  LINK=$(readlink "$(basename "$1")")
+  while [ "$LINK" ]; do
+    cd "$(dirname "$LINK")"
+    LINK=$(readlink "$(basename "$1")")
+  done
+  REALPATH="$PWD/$(basename "$1")"
+  cd "$OURPWD"
+  echo "$REALPATH"
+}
+
 new_files=()
 preprocess() {
   new_files=()
@@ -36,8 +49,9 @@ preprocess() {
           xcrun_arguments+=(${BASH_REMATCH[2]})
         ;;
         "import" )
-          file="$dirname/${BASH_REMATCH[2]}"
-          if ! [[ ${files[@]} =~ "$file" ]]; then
+          file=`realpath $dirname/${BASH_REMATCH[2]}`
+          tmpfiles=("${new_files[@]}" "${files[@]}")
+          if ! [[ ${tmpfiles[@]} =~ "$file" ]]; then
             new_files+=($file)
           fi
         ;;

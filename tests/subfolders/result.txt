@@ -1,2 +1,3 @@
+subfolder_test: include2.swift
 subfolder_test: include.swift
 subfolder_test: test.swift

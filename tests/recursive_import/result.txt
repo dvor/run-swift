@@ -1,3 +1,4 @@
 import_preprocessing: include2.swift
+import_preprocessing: include3.swift
 import_preprocessing: include.swift
 import_preprocessing: test.swift
