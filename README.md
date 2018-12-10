@@ -1,3 +1,5 @@
+**DEPRECATED**
+
 [![Build Status](https://travis-ci.org/dvor/run-swift.svg)](https://travis-ci.org/dvor/run-swift)
 
 ## License
